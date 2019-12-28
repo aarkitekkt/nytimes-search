@@ -3,6 +3,7 @@ var apiKey = "&api-key=GhMg9BIKX4bsgTVZGXqiR4ursxjB1PhI";
 var searchBtn = $("#run-search");
 var articleList = $("#article-section");
 var url = "";
+var NYTData = {};
 
 
 function searchArticles() {
@@ -12,9 +13,29 @@ function searchArticles() {
         url: url,
         method: "GET",
     }).then(function (response) {
-        console.log(response)
+        console.log(response);
+        NYTData = response;
+        showArticles(NYTData);
     })
 
+}
+
+function showArticles(NYTData) {
+    var numArticles = $("#article-count").val();
+
+    for (var i = 0; i < numArticles; i++) {
+        var article = NYTData.response.docs[i];
+
+        var articleListEl = $("<ul>");
+        articleListEl.addClass("list-group");
+
+        articleList.append(articleListEl);
+
+        var headline = article.headline.main;
+        var ListElItem = ("<li>");
+
+        articleListEl.append(headline);
+    }
 }
 
 function buildQueryUrl() {
@@ -32,7 +53,7 @@ function clearFunction() {
 $("#run-search").click(function (event) {
     event.preventDefault();
     buildQueryUrl();
-    searchArticles()
+    searchArticles();
 })
 
 $("#clear-all").click(function () {
