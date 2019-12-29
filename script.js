@@ -31,10 +31,18 @@ function showArticles(NYTData) {
 
         articleList.append(articleListEl);
 
+        var listItem = $("<li>");
         var headline = article.headline.main;
-        var ListElItem = ("<li>");
+        var articleUrl = article.web_url;
+        var articleAbstract = article.abstract;
 
-        articleListEl.append(headline);
+        listItem.append("<strong>" + headline + "</strong> <br>");
+
+        listItem.append(articleAbstract + "<br>")
+
+        listItem.append("<a href='" + articleUrl + "'>" + articleUrl + "</a>");
+
+        articleListEl.append(listItem);
     }
 }
 
@@ -52,6 +60,7 @@ function clearFunction() {
 
 $("#run-search").click(function (event) {
     event.preventDefault();
+    clearFunction();
     buildQueryUrl();
     searchArticles();
 })
