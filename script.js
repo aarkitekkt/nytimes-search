@@ -35,11 +35,11 @@ function showArticles(NYTData) {
         var headline = article.headline.main;
         var articleUrl = article.web_url;
         var articleAbstract = article.abstract;
+        var articleDate = article.pub_date;
 
         listItem.append("<strong>" + headline + "</strong> <br>");
-
-        listItem.append(articleAbstract + "<br>")
-
+        listItem.append(articleAbstract + "<br>");
+        listItem.append(articleDate + "<br>");
         listItem.append("<a href='" + articleUrl + "'>" + articleUrl + "</a>");
 
         articleListEl.append(listItem);
@@ -48,8 +48,18 @@ function showArticles(NYTData) {
 
 function buildQueryUrl() {
     var search = $("#search-term").val().trim();
-    var startYear = "&begin_date=" + $("#start-year").val().trim() + "0101";
-    var endYear = "&end_date=" + $("#end-year").val().trim() + "1231";
+    var startYear = ""
+    var endYear = "";
+
+    if ($("#start-year").val()) {
+        startYear = "&begin_date=" + $("#start-year").val().trim() + "0101"
+    }
+
+
+    if ($("#end-year").val()) {
+        endYear = "&end_date=" + $("#end-year").val().trim() + "1231"
+    }
+
     url = nyTimes + "q=" + search + startYear + endYear + apiKey;
 
 }
